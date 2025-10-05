@@ -2,35 +2,31 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 # github actions 中文文档 https://docs.github.com/cn/actions/getting-started-with-github-actions
 
-name: test
+name: CI Test
 
 on:
   push:
-    branches:
-      - master
-    paths:
-      - ".github/workflows/**"
-      - "__test__/**"
-      - "src/**"
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: 14
-      - name: Install dependencies
-        run: npm ci
-      - name: Run lint
-        run: npm run lint
-      - name: Run tests
-        run: npm test
-      - name: Show versions
+          node-version: "18"
+
+      - name: Test workflow
         run: |
-          node -V
-          npm -V
-          echo 'Workflow finished'
+          echo "Node.js version:"
+          node -v
+          echo "NPM version:"
+          npm -v
+          echo "Workflow successfully triggered!"

@@ -49,5 +49,14 @@ router.get('/api/redis-test', async (ctx, next) => {
     },
   }
 })
-
+router.get('/api/test', async (ctx, next) => {
+  ctx.body = {
+    code: 200,
+    message: 'ok',
+    data: {
+      SERVER_NAME: process.env.SERVER_NAME,
+      AUTHOR_NAME: process.env.AUTHOR_NAME,
+    },
+  }
+})
 module.exports = router

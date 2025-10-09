@@ -14,7 +14,7 @@ require('require-all')({
 })
 
 const syncDb = async () => {
-  const needToSyncDb = true
+  let needToSyncDb = true
 
   // 只适用于开发环境！！！
   if (isDev) {

@@ -11,7 +11,7 @@ RUN npm set registry https://registry.npmmirror.com
 RUN npm  install 
 
 # 启动
-CMD echo $SERVER_NAME && echo $AUTHOR_NAME && npm run dev && npx pm2 log #阻塞控制台的程序
+CMD npm  run  prd-dev && npx pm2 log #阻塞控制台的程序
 
 # 环境变量
 ENV SERVER_NAME="biz-editor-server"

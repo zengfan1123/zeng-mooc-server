@@ -1,5 +1,5 @@
 const redis = require('redis')
-const { redisConf } = require('../config/envs/dev.js')
+const { redisConf } = require('../config')
 const { port, host, password } = redisConf
 let opt = {}
 if (password) {

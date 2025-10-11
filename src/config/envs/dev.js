@@ -3,13 +3,13 @@ module.exports = {
     host: 'localhost',
     user: 'root',
     password: 'ServBay.dev',
-    database: 'imooc-lego-course',
+    database: 'imooc_lego_course',
     port: '3306',
   },
   mongodbConf: {
     host: 'localhost',
     port: '27017',
-    database: 'imooc-lego-course',
+    database: 'imooc_lego_course',
   },
   redisConf: {
     port: '6379',

@@ -1,7 +1,4 @@
 const ENV = process.env.NODE_ENV || ''
-console.log('====================================')
-console.log(ENV, 'ENV')
-console.log('====================================')
 module.exports = {
   ENV,
   isPrd: ENV === 'production',

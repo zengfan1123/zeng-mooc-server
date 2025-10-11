@@ -117,3 +117,4 @@ wiki/
 wfp_test/
 
 tmp-files-windows/
+.docker-volumes/

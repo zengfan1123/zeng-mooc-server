@@ -4,23 +4,9 @@ const router = require('koa-router')()
 const { WorkModel } = require('../models/WorkModel.js')
 const { cacheGet, cacheSet } = require('../cache/index')
 
-router.get('/api/db-check', async (ctx, next) => {
-  const result = await testMysql()
-  ctx.body = {
-    code: 200,
-    message: 'ok',
-    data: result,
-  }
-})
-router.get('/api/con-test', async (ctx, next) => {
-  const result = await conTest()
-  ctx.body = {
-    code: 200,
-    message: 'ok',
-    data: result,
-  }
-})
-router.get('/api/mongo-test', async (ctx, next) => {
+router.get('/api/dbLinkCheck', async (ctx, next) => {
+  const mysqlResult = await testMysql()
+  const conResult = await conTest()
   let mongoConnected = false
   try {
     await WorkModel.findOne()
@@ -28,16 +14,6 @@ router.get('/api/mongo-test', async (ctx, next) => {
   } catch (error) {
     console.log(error)
   }
-  ctx.body = {
-    code: 200,
-    message: 'ok',
-    data: {
-      mongoConnected,
-    },
-  }
-})
-
-router.get('/api/redis-test', async (ctx, next) => {
   // 测试 redis 连接
   cacheSet('name', 'biz editor sever OK - by redis')
   const redisTest = await cacheGet('name')
@@ -45,17 +21,12 @@ router.get('/api/redis-test', async (ctx, next) => {
     code: 200,
     message: 'ok',
     data: {
-      redisTest,
-    },
-  }
-})
-router.get('/api/test', async (ctx, next) => {
-  ctx.body = {
-    code: 200,
-    message: 'ok',
-    data: {
-      SERVER_NAME: process.env.SERVER_NAME,
-      AUTHOR_NAME: process.env.AUTHOR_NAME,
+      mysqlConnected: mysqlResult,
+      seqConnected: conResult,
+      mongoConnected,
+      redisTest: redisTest || null,
+      SERVER_NAME: process.env.SERVER_NAME || null,
+      AUTHOR_NAME: process.env.AUTHOR_NAME || null,
     },
   }
 })

@@ -11,7 +11,12 @@ services:
     # networks:
     #   - zeng-fan-cli
     ports:
-      - 8081:3311 # 宿主机通过 8081 访问
+      - 8081:3311
+    depends_on:
+      editor-redis:
+        condition: service_healthy
+      editor-mysql:
+        condition: service_healthy
   editor-redis:
     image: redis # 引用官网 redis 镜像
     container_name: editor-redis
@@ -20,7 +25,12 @@ services:
     ports:
       - 6378:6379 # 宿主机可以用 127.0.0.1:6378 即可连接容器中的数据库
     environment:
-      - TZ=Asia/Shanghai # 设置时区
+      - TZ=Asia/Shanghai
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   editor-mysql:
     image: mysql:8.4.0 # 引用官网 mysqL 镜像
     container_name: editor-mysql
@@ -36,7 +46,12 @@ services:
     environment:
       - MYSQL_DATABASE=imooc_lego_course # 初始化容器时创建数据库
       - MYSQL_ROOT_PASSWORD=ServBay.dev
-      - TZ=Asia/Shanghai # 设置时区
+      - TZ=Asia/Shanghai
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
   editor-mongo:
     image: mongo:8.0 #   mongo 镜像
     container_name: editor-mongo
